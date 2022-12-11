@@ -1,10 +1,14 @@
 const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+// const connection = require('mysql2/typings/mysql/lib/Connection');
 // const { listenerCount } = require('mysql2/typings/mysql/lib/Connection');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 
 const db = mysql.createConnection(
     {
@@ -53,7 +57,58 @@ const initalQ = [
     return inquirer.prompt(initalQ);
   }
 
+  function viewDepartments() {
+    //console.table('department');
+    let query = "SELECT * FROM department"
+    Connection.query(query, function(err, res) {
+      if (err) console.log('error');
+      console.table(res);
+      startApp();
+    })
+  }
+
+  function viewRoles() {
+
+  }
+
+  function viewEmployees() {
+
+  }
+
+  function addDepartment() {
+
+  }
+
+  function addRole() {
+    
+  }
+
+  function addEmployee() {
+
+  }
+
+  function updateRole() {
+
+  }
+
   startApp()
   .then( answers => {
     console.log('answers is', answers);
+    if (userSelection == 'view all departments') {
+      viewDepartments();
+      return;
+    } else if (answer == 'view all roles') {
+      viewRoles();
+    } else if (answer == 'view all employees') {
+      viewEmployees();
+    } else if (answer == 'add a department') {
+      addDepartment();
+    } else if (answer == 'add a role') {
+      addRole();
+    } else if (answer == 'add an employee') {
+      addEmployee();
+    } else if (answer == 'update an employee role') {
+      updateRole();
+    }
   })
+
